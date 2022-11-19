@@ -23,3 +23,4 @@ function index (data) {
   
 
 module.exports = index
+  
