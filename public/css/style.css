@@ -1,5 +1,11 @@
 h1 {
     text-align: center;
     color: rgb(237, 132, 100);
+    
   }
   
+  img {
+    width: 50%;
+    display: block;
+    margin: auto;
+  }
