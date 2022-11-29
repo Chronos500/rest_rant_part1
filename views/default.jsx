@@ -25,10 +25,10 @@ function Def (html) {
 
                 {html.children}
                 
-                <footer className="footer">
+            <footer className="footer">
   
   <p><a href="https://github.com/Chronos500">my Github</a></p>
-</footer>
+    </footer>
             </body>
         </html>
     )
