@@ -37,16 +37,14 @@ router.get('/:id', (req, res) => {
 
 //get edit//
 router.get('/:id/edit', (req, res) => {
-  let id = Number(req.params.id)
-  if (isNaN(id)) {
-      res.render('error404')
-  }
-  else if (!places[id]) {
-      res.render('error404')
-  }
-  else {
-    res.render('places/edit', { place: places[id], id })
-  }
+db.Place.findOneAndUpdate(req.params.id)
+.then(place => {
+  res.render('places/edit', { place: places[id], id })
+})
+.catch(err => {
+    console.log('err', err)
+    res.render('error404')
+})
 })
 
 
@@ -67,19 +65,22 @@ router.post('/', (req, res) => {
 
 //delete
 
+
 router.delete('/:id', (req, res) => {
-  let id = Number(req.params.id)
-  if (isNaN(id)) {
-    res.render('error404')
-  }
-  else if (!places[id]) {
-    res.render('error404')
-  }
-  else {
-    places.splice(id, 1)
+db.Place.deleteOne(req.body)
+.then(() => {
     res.redirect('/places')
-  }
 })
+.catch(err => {
+    console.log('err', err)
+    res.render('error404')
+})
+})
+
+
+
+
+
 
 
 // PUT ROUTES
@@ -117,22 +118,6 @@ module.exports = router
 
 
 /*
-
-
-
-
-
-
-
-
-router.get('/new', (req, res) => {
-res.render('places/new')
-})
-
-router.get('/:id', (req, res) => {
-res.send('GET /places/:id stub')
-})
-
 router.put('/:id', (req, res) => {
 res.send('PUT /places/:id stub')
 })
@@ -158,3 +143,38 @@ router.delete('/:id/rant/:rantId', (req, res) => {
 
 
 */
+
+
+
+
+//old delete route no mongoose//
+
+/*router.delete('/:id', (req, res) => {
+  let id = Number(req.params.id)
+  if (isNaN(id)) {
+    res.render('error404')
+  }
+  else if (!places[id]) {
+    res.render('error404')
+  }
+  else {
+    places.splice(id, 1)
+    res.redirect('/places')
+  }
+})
+
+
+//old edit//
+
+router.get('/:id/edit', (req, res) => {
+  let id = Number(req.params.id)
+  if (isNaN(id)) {
+      res.render('error404')
+  }
+  else if (!places[id]) {
+      res.render('error404')
+  }
+  else {
+    res.render('places/edit', { place: places[id], id })
+  }
+})*/
