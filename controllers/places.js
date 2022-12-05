@@ -37,7 +37,7 @@ router.get('/:id', (req, res) => {
 
 //get edit//
 router.get('/:id/edit', (req, res) => {
-db.Place.findOneAndUpdate(req.params.id)
+db.Place.findByIdAndUpdate(req.params.id)
 .then(place => {
   res.render('places/edit', { place: places[id], id })
 })
@@ -64,9 +64,11 @@ db.Place.findOneAndUpdate(req.params.id)
   .catch(err => {
     if (err && err.name == 'ValidationError') {
       let message = 'Validation Error: '
-      
-      // Todo: Find all validation errors
-  
+      for (var field in err.errors) {
+          message += `${field} was ${err.errors[field].value}. `
+          message += `${err.errors[field].message}`
+      }
+      console.log('Validation error message', message)
       res.render('places/new', { message })
   }
   else {
@@ -82,7 +84,7 @@ db.Place.findOneAndUpdate(req.params.id)
 
 
 router.delete('/:id', (req, res) => {
-db.Place.deleteOne(req.body)
+db.Place.findByIdAndDelete(req.params.id)
 .then(() => {
     res.redirect('/places')
 })
