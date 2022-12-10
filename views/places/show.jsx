@@ -7,6 +7,10 @@ function show (data) {
       No comments yet!
     </h3>
   )
+  let rating = (
+    <h3 className="inactive">
+      not yet rated </h3>
+  )
   if (data.place.comments.length) {
     comments = data.place.comments.map(c => {
       return (
@@ -44,11 +48,11 @@ function show (data) {
         <h4>
           Serving {data.place.cuisines}
         </h4>
-        <a href={`/places/${data.id}/edit`} className="btn btn-warning"> 
+        <a href={`/places/${data.place.id}/edit`} className="btn btn-warning"> 
   Edit
 </a>     
   
-<form method="POST" action={`/places/${data.id}?_method=DELETE`}> 
+<form method="POST" action={`/places/${data.place.id}?_method=DELETE`}> 
   <button type="submit" className="btn btn-danger">
     Delete
   </button>

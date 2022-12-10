@@ -1,8 +1,5 @@
 const router = require('express').Router()
 const db = require('../models')
-const places = require('../models/places.js')
-
-
 
 // GET /places/new//
 router.get('/new', (req, res) => {
@@ -38,23 +35,7 @@ router.get('/:id', (req, res) => {
 
 
 
-//get edit//
-router.get('/:id/edit', (req, res) => {
-db.Place.findOneAndUpdate(req.params.id)
-.then(place => {
-  res.render('places/edit', { place: places[id], id })
-})
-.catch(err => {
-    console.log('err', err)
-    res.render('error404')
-})
-})
-
-
-
-
-
- //POST /places
+//POST /places
  router.post('/', (req, res) => {
   if (!req.body.pic) {
     // Default image if one is not provided
@@ -110,9 +91,22 @@ router.post('/:id/comment', (req, res) => {
 
 
 router.delete('/:id', (req, res) => {
-db.Place.remove(req.params.id)
+db.Place.findByIdAndDelete(req.params.id)
 .then(() => {
     res.redirect('/places')
+})
+.catch(err => {
+    console.log('err', err)
+    res.render('error404')
+})
+})
+
+
+//get edit//
+router.get('/:id/edit', (req, res) => {
+db.Place.findById(req.params.id)
+.then(place => {
+  res.render('places/edit', { place })
 })
 .catch(err => {
     console.log('err', err)
@@ -151,7 +145,7 @@ router.put('/:id', (req, res) => {
 
       // Save the new data into places[id]
       places[id] = req.body
-      res.redirect(`/places/${id}`)
+      res.redirect(`/places/${req.params.id}`)
   }
 })
 
@@ -185,14 +179,14 @@ router.delete('/:id/rant/:rantId', (req, res) => {
 
 
 
-*/
+
 
 
 
 
 //old delete route no mongoose//
 
-/*router.delete('/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
   let id = Number(req.params.id)
   if (isNaN(id)) {
     res.render('error404')
@@ -220,4 +214,7 @@ router.get('/:id/edit', (req, res) => {
   else {
     res.render('places/edit', { place: places[id], id })
   }
-})*/
+})
+
+
+*/
